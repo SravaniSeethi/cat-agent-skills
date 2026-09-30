@@ -46,8 +46,14 @@ def main():
             detail = f"no receipt and no order; value {rq['value']} <= receiptless limit {limit} - at most ID-verified store credit, a human decision (#1.2)"
             missing.append("ID verification if store credit is considered (#1.2)")
     else:
-        age = (date.fromisoformat(rq["requested_on"]) - date.fromisoformat(order["order_date"])).days
-        if age > win:
+        request_date = date.fromisoformat(rq["requested_on"])
+        order_date = date.fromisoformat(order["order_date"])
+        age = (request_date - order_date).days
+        if age < 0:
+            det, clause, rec, conf = "needs_evidence", "RET-1.1", "hold_for_review", 0.5
+            detail = "request date precedes order date (#1.1) - correct the case dates before determination"
+            missing.append("valid request and order dates (#1.1)")
+        elif age > win:
             det, clause, rec = "ineligible", "RET-2.1", "decline"
             detail = f"{age} days since purchase > {win}-day {cat} window (#1.1)"
         else:
