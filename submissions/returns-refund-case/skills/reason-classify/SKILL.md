@@ -2,7 +2,7 @@
 name: reason-classify
 description: 'Classifies the stated return reason against the reason-code taxonomy with the deterministic reason_classify engine, recording confidence and candidate codes. Use after return-intake in every case, or on "what reason code is this", "classify the return reason", "which reason code", "code this return", "why are they returning it". Do NOT use for sentiment or complaint triage; not for eligibility or red flags - use eligibility-check instead; not for policy text - use policy-retrieve.'
 license: Proprietary
-metadata: {version: "1.0.2", author: Microsoft Retail & CPG Skills, category: analysis}
+metadata: {version: "1.0.3", author: Microsoft Retail & CPG Skills, category: analysis}
 ---
 # Reason Classify
 ## Purpose
@@ -14,15 +14,15 @@ Deterministic taxonomy classification of the verbatim reason text - the {reason}
 - Eligibility, refund or fraud questions - eligibility-check.
 - Retrieving policy - policy-retrieve. Drafting - case-packet.
 ## Inputs
-Shared plugin assets live at the plugin root (one canonical copy): `../../config/`, `../../contracts/`, `../../references/returns-rules.md`, `../../demo-data/` - paths below are relative to this skill folder.
-`case.json` + ../../config/reason-taxonomy.json. Engine: scripts/reason_classify.py.
+Plugin assets ship inside this skill folder (synced from the plugin-root shared/ copy before packaging): `config/`, `contracts/`, `references/returns-rules.md`, `demo-data/` - paths below are relative to this skill folder.
+`case.json` + config/reason-taxonomy.json. Engine: scripts/reason_classify.py.
 ## Steps
-1. Run `python scripts/reason_classify.py --case case.json --taxonomy ../../config/reason-taxonomy.json --out classified.json`.
+1. Run `python scripts/reason_classify.py --case case.json --taxonomy config/reason-taxonomy.json --out classified.json`.
 2. Quote `reason.category` and `reason.confidence` verbatim, with the `candidates` list when more than one category matched.
 3. If confidence < 0.75 the engine appends an escalation: confirm the primary reason with the customer before the packet closes - never guess.
 ## Example
 ```
-$ python scripts/reason_classify.py --case case.json --taxonomy ../../config/reason-taxonomy.json --out classified.json
+$ python scripts/reason_classify.py --case case.json --taxonomy config/reason-taxonomy.json --out classified.json
 reason_classify: not_as_described (conf 0.7) -> classified.json
 Reply: "Reason code: not_as_described (confidence 0.7). Matched: 'looks different'. Alternative: defective ('broken').
         Ambiguous - confirm the primary reason with the customer before the packet closes."

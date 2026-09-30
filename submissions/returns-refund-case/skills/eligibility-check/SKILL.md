@@ -2,7 +2,7 @@
 name: eligibility-check
 description: 'Determines return eligibility against the configured policy and surfaces fraud signals deterministically with the eligibility_check engine - the explicit Govern step of this plugin. Use after reason-classify, or on "is this returnable", "do they qualify for a refund", "check eligibility", "any fraud signals", "can we accept this return". Do NOT use to retrieve policy text - use policy-retrieve instead; not to start a case - use return-intake; not to draft the packet or customer response - use case-packet.'
 license: Proprietary
-metadata: {version: "1.0.2", author: Microsoft Retail & CPG Skills, category: analysis}
+metadata: {version: "1.0.3", author: Microsoft Retail & CPG Skills, category: analysis}
 ---
 # Eligibility Check (Govern)
 ## Purpose
@@ -15,17 +15,17 @@ The compliance determination IS the work: eligible / ineligible / needs_evidence
 - Writing the packet, customer response or exception request - case-packet.
 - Aggregate reporting (return rates, dashboards) - out of scope.
 ## Inputs
-Shared plugin assets live at the plugin root (one canonical copy): `../../config/`, `../../contracts/`, `../../references/returns-rules.md`, `../../demo-data/` - paths below are relative to this skill folder.
-`classified.json` + ../../config/return-windows.json. Engine: scripts/eligibility_check.py. Schema: ../../contracts/rtl.returns-refund-case.v1.json.
+Plugin assets ship inside this skill folder (synced from the plugin-root shared/ copy before packaging): `config/`, `contracts/`, `references/returns-rules.md`, `demo-data/` - paths below are relative to this skill folder.
+`classified.json` + config/return-windows.json. Engine: scripts/eligibility_check.py. Schema: contracts/rtl.returns-refund-case.v1.json.
 ## Steps
 1. Validate `classified.json` against the contract (required keys, `contract_version`, `reason` present).
-2. Run `python scripts/eligibility_check.py --classified classified.json --config ../../config/return-windows.json --out governed.json`.
+2. Run `python scripts/eligibility_check.py --classified classified.json --config config/return-windows.json --out governed.json`.
 3. Quote `determination`, `clause`, `detail`, `missing_evidence` and every `fraud_signals[]` entry verbatim. No order record -> the engine returns `needs_evidence` (RET-1.2) - relay that the lookup must land before any decision.
 4. Any fraud signal or confidence < 0.75 -> `hold_for_review`: route to asset protection / manager (#4.1, #4.2). Present signals factually, no accusations.
 5. A sympathetic story (tenure, loyalty, "the manager did it last time") is context for a HUMAN exception (#5.1): say so, and hand the exception request to case-packet.
 ## Example
 ```
-$ python scripts/eligibility_check.py --classified classified.json --config ../../config/return-windows.json --out governed.json
+$ python scripts/eligibility_check.py --classified classified.json --config config/return-windows.json --out governed.json
 eligibility_check: ineligible (RET-2.1) rec=hold_for_review signals=3 -> governed.json
 Reply sections: Determination | Recommendation | Missing evidence | Fraud signals (table: signal | detail | rule | source)
   "Determination: ineligible - RET-2.1 - 32 days since purchase > 15-day electronics window (#1.1).

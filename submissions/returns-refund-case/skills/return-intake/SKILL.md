@@ -2,7 +2,7 @@
 name: return-intake
 description: 'Structures a customer return request - item, order/receipt, reason as stated, condition, serials, customer history - into the rtl.returns-refund-case.v1 contract as case.json. Use when the user says "customer wants to return", "process this return", "start a return case", "log this return", "new return at the desk", or a return case begins. Do NOT use for eligibility or refund decisions - use eligibility-check instead; not for policy text - use policy-retrieve; not for the write-up or customer response - use case-packet.'
 license: Proprietary
-metadata: {version: "1.0.2", author: Microsoft Retail & CPG Skills, category: productivity}
+metadata: {version: "1.0.3", author: Microsoft Retail & CPG Skills, category: productivity}
 ---
 # Return Intake
 ## Purpose
@@ -15,8 +15,8 @@ Assemble the case facts: request, order record, SKU attributes, customer return 
 - Classifying the reason code - reason-classify.
 - Drafting the packet, customer response or manager exception request - case-packet.
 ## Inputs
-Shared plugin assets live at the plugin root (one canonical copy): `../../config/`, `../../contracts/`, `../../references/returns-rules.md`, `../../demo-data/` - paths below are relative to this skill folder.
-The request as stated (verbatim reason text); order/receipt lookup export; SKU attributes; customer history extract. Schema: ../../contracts/rtl.returns-refund-case.v1.json.
+Plugin assets ship inside this skill folder (synced from the plugin-root shared/ copy before packaging): `config/`, `contracts/`, `references/returns-rules.md`, `demo-data/` - paths below are relative to this skill folder.
+The request as stated (verbatim reason text); order/receipt lookup export; SKU attributes; customer history extract. Schema: contracts/rtl.returns-refund-case.v1.json.
 ## Steps
 1. Mint `case_id` as `RET-<YYYY>-<5-digit sequence>` (contract convention); never encode the order id or customer identity in it.
 2. Capture `reason_text` verbatim - classification and the human exception path depend on the actual words.

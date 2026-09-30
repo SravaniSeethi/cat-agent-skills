@@ -2,7 +2,7 @@
 name: case-packet
 description: 'Drafts the return case packet - determination, recommendation, evidence list, fraud signals, customer response draft, manager exception request - from the governed contract payload using the packet template. Use to close every return case: "build the case packet", "write up the return", "draft the customer response", "draft the manager exception request", "close the return case". Do NOT use to start a case - use return-intake instead; not for eligibility or red flags - use eligibility-check; not for incident or safety write-ups.'
 license: Proprietary
-metadata: {version: "1.0.2", author: Microsoft Retail & CPG Skills, category: writing}
+metadata: {version: "1.0.3", author: Microsoft Retail & CPG Skills, category: writing}
 ---
 # Case Packet
 ## Purpose
@@ -14,8 +14,8 @@ Terminal artifact: the complete case packet on first touch - the retail equivale
 - Starting a case from raw desk facts - return-intake.
 - Policy questions - policy-retrieve. Non-return write-ups (incidents, safety, HR) - other plugins.
 ## Inputs
-Shared plugin assets live at the plugin root (one canonical copy): `../../config/`, `../../contracts/`, `../../references/returns-rules.md`, `../../demo-data/` - paths below are relative to this skill folder.
-`governed.json` (full payload) + references/case-packet-template.md + ../../references/returns-rules.md.
+Plugin assets ship inside this skill folder (synced from the plugin-root shared/ copy before packaging): `config/`, `contracts/`, `references/returns-rules.md`, `demo-data/` - paths below are relative to this skill folder.
+`governed.json` (full payload) + references/case-packet-template.md + references/returns-rules.md.
 ## Steps
 1. Validate `governed.json` against the contract; escalations and fraud-signal holds lead the packet.
 2. Fill references/case-packet-template.md section by section: cited case facts, reason code (+ ambiguity note), determination + clause, recommendation, missing-evidence list, factual fraud signals, customer response draft in the template's tone, and the manager exception-request draft only when the customer asked for one (#5.1).

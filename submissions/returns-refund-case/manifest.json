@@ -1,7 +1,7 @@
 {
     "$schema": "https://developer.microsoft.com/json-schemas/teams/vDevPreview/MicrosoftTeams.schema.json",
     "manifestVersion": "devPreview",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "id": "4e34d725-5a50-5fff-a8b1-ac68968bbabd",
     "developer": {
         "name": "Sravani Seethi",
